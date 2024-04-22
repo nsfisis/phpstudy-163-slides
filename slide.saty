@@ -17,6 +17,10 @@ let mid-textbox ?:size-opt it =
   let size = Option.from 24pt size-opt in
     FigBox.textbox?:(set-font-size size) it
 
+let small-textbox ?:size-opt it =
+  let size = Option.from 16pt size-opt in
+    FigBox.textbox?:(set-font-size size) it
+
 let with-frame figbox = figbox
   |> FigBox.hvmargin 16pt
   |> FigBox.frame 2pt Color.black
@@ -40,10 +44,10 @@ document '<
 
   +make-title(|
     title = {
-      |TODO
+      |Tracing JIT の発動条件
       |};
     author = {|nsfisis (いまむら)|};
-    date = {|第TODO回PHP勉強会＠東京|};
+    date = {|第163回PHP勉強会＠東京|};
   |);
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -66,8 +70,86 @@ document '<
 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+  +frame{PHPカンファレンス小田原}<
+    +fig-center(vconcat [
+      gap 60pt;
+      big-textbox{来る新 JIT エンジンについて};
+    ]);
+    +fig-center(vconcat [
+      gap 30pt;
+      big-textbox{知った気になる};
+    ]);
+  >
+
+  +frame{おさらい}<
+    +fig-center(vconcat [
+      gap 30pt;
+      big-textbox{Tracing JIT とは？};
+    ]);
+  >
+
+  +frame{おさらい}<
+    +fig-center(vconcat [
+      gap 30pt;
+      big-textbox{Tracing JIT とは？};
+    ]);
+    +fig-center(vconcat [
+      gap 30pt;
+      mid-textbox{実行された opcode/operand を記録して (トレース)};
+      gap 20pt;
+      mid-textbox{その情報を使って opcode を機械語に変換する};
+    ]);
+  >
+
+  +frame{おさらい}<
+    +fig-center(vconcat [
+      gap 30pt;
+      big-textbox{Tracing JIT とは？};
+    ]);
+    +fig-center(vconcat [
+      gap 30pt;
+      mid-textbox{実行された opcode/operand を記録して (トレース)};
+      gap 20pt;
+      mid-textbox{その情報を使って opcode を機械語に変換する};
+    ]);
+    +fig-center(vconcat [
+      gap 40pt;
+      mid-textbox{毎回実行するとオーバヘッドが大きすぎる};
+    ]);
+  >
+
+  +frame{Tracing JIT 詳細}<
+    +listing{
+      * 実行詳細
+        ** PHP スクリプトにカウンタ機構を埋め込む
+          *** 何度も実行される関数・ループを記録
+        ** 何回も実行されると、実行パターンの記録 (トレース) を開始
+        ** トレースを元に JIT コンパイル
+    }
+  >
+
+  +frame{Tracing JIT 詳細}<
+    +listing{
+      * 実行詳細
+        ** PHP スクリプトにカウンタ機構を埋め込む
+          *** 何度も実行される関数・ループを記録
+        ** 何回も実行されると、実行パターンの記録 (トレース) を開始
+        ** トレースを元に JIT コンパイル
+      * 制御するオプション
+        ** \code(`opcache.jit_hot_loop`);      (デフォルト値: \code(`64`);)
+          *** 64 回実行されたループは JIT コンパイル
+        ** \code(`opcache.jit_hot_func`);      (デフォルト値: \code(`127`);)
+          *** 127 回実行された関数は JIT コンパイル
+    }
+  >
+
   +frame{まとめ}<
-    +p{TODO}
+    +fig-center(vconcat [
+      gap 30pt;
+      ex-big-textbox{ムズい！};
+      gap 30pt;
+      big-textbox{バス係数 = 1};
+    ]);
   >
 
 >
